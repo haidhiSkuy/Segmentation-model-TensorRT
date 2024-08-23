@@ -1,4 +1,4 @@
-FROM nvcr.io/nvidia/tensorrt:24.07-py3
+FROM nvcr.io/nvidia/tensorrt:23.05-py3
 
 # opencv
 RUN apt-get update
