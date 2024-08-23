@@ -18,8 +18,6 @@ class ImageBatcher:
             input (str): The input directory to read images from.
             shape (tuple | list): The tensor shape of the batch to prepare, either in NCHW or NHWC format.
             dtype (numpy): The (numpy) datatype to cast the batched data to.
-            max_num_images (int): The maximum number of images to read from the directory.
-            param exact_batches (bool): This defines how to handle a number of images that is not an exact multiple of the batch size. If false, it will pad the final batch with zeros to reach the batch size. If true, it will *remove* the last few images in excess of a batch size multiple, to guarantee batches are exact (useful for calibration).
         """
         # Find images in the given input path
         input = os.path.realpath(input)
