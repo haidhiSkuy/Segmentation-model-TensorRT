@@ -55,3 +55,17 @@ class TensorRTInfer:
                 self.inputs.append(binding)
             else:
                 self.outputs.append(binding)
+
+    def input_spec(self):
+        """
+        Get the specs for the input tensor of the network. Useful to prepare memory allocations.
+        :return: Two items, the shape of the input tensor and its (numpy) datatype.
+        """
+        return self.inputs[0]["shape"], self.inputs[0]["dtype"]  
+    
+    def output_spec(self):
+        """
+        Get the specs for the output tensor of the network. Useful to prepare memory allocations.
+        :return: Two items, the shape of the output tensor and its (numpy) datatype.
+        """
+        return self.outputs[0]["shape"], self.outputs[0]["dtype"]
