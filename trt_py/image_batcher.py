@@ -49,3 +49,31 @@ class ImageBatcher:
         assert len(self.shape) == 4
         self.batch_size = shape[0]  
         assert self.batch_size > 0
+
+        self.format = None
+        self.width = -1
+        self.height = -1
+
+        if self.shape[1] == 3:
+            self.format = "NCHW"
+            self.height = self.shape[2]
+            self.width = self.shape[3]
+
+        elif self.shape[3] == 3:
+            self.format = "NHWC"
+            self.height = self.shape[1]
+            self.width = self.shape[2]
+
+        assert all([self.format, self.width > 0, self.height > 0])
+
+        # Subdivide the list of images into batches
+        self.num_batches = 1 + int((self.num_images - 1) / self.batch_size)
+        self.batches = []
+        for i in range(self.num_batches):
+            start = i * self.batch_size
+            end = min(start + self.batch_size, self.num_images)
+            self.batches.append(self.images[start:end])
+
+        # Indices
+        self.image_index = 0
+        self.batch_index = 0
