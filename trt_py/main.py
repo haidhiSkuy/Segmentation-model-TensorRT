@@ -83,3 +83,10 @@ class TensorRTInfer:
         # Prepare the output data
         output_shape, output_dtype = self.output_spec()
         output = np.zeros(output_shape, dtype=output_dtype) # zeros array with size is the model output size (1, 3, 256, 256) 
+
+        # Process I/O and execute the network
+        common.memcpy_host_to_device(
+            self.inputs[0]["allocation"], np.ascontiguousarray(batch)
+        )
+        self.context.execute_v2(self.allocations)
+        common.memcpy_device_to_host(output, self.outputs[0]["allocation"])
