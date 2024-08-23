@@ -94,4 +94,25 @@ class TensorRTInfer:
 
         output_mask = sigmoid(output)[0][0]
         output_mask = np.where(output_mask > 0.5, 1, 0) * 255
-        return output_mask
+        return output_mask 
+    
+
+if __name__ == "__main__": 
+    import cv2
+    from image_batcher import ImageBatcher
+
+    input_path = "sample_image/image4.png"
+
+    inference = TensorRTInfer("model/ghost_unet.engine")
+    input_shape, input_dtype = inference.input_spec()
+
+    batcher = ImageBatcher(
+        input=input_path, 
+        shape=input_shape, 
+        dtype=input_dtype
+    )
+
+
+    for i, (batch, images) in enumerate(batcher.get_batch()):
+        out = inference.infer(batch)
+        cv2.imwrite(f"out_{i}.png", out)
