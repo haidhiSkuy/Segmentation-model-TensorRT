@@ -68,4 +68,18 @@ class TensorRTInfer:
         Get the specs for the output tensor of the network. Useful to prepare memory allocations.
         :return: Two items, the shape of the output tensor and its (numpy) datatype.
         """
-        return self.outputs[0]["shape"], self.outputs[0]["dtype"]
+        return self.outputs[0]["shape"], self.outputs[0]["dtype"] 
+    
+    def infer(self, batch, top=1):
+        """
+        Execute inference on a batch of images. The images should already be batched and preprocessed, as prepared by
+        the ImageBatcher class. Memory copying to and from the GPU device will be performed here.
+        :param batch: A numpy array holding the image batch.
+        :param top: The number of classes to return as top_predicitons, in descending order by their score. By default,
+        setting to one will return the same as the maximum score class. Useful for Top-5 accuracy metrics in validation.
+        :return: Three items, as numpy arrays for each batch image: The maximum score class, the corresponding maximum
+        score, and a list of the top N classes and scores.
+        """
+        # Prepare the output data
+        output_shape, output_dtype = self.output_spec()
+        output = np.zeros(output_shape, dtype=output_dtype) # zeros array with size is the model output size (1, 3, 256, 256) 
