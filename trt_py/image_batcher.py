@@ -87,4 +87,22 @@ class ImageBatcher:
         image_arr = np.expand_dims(image_arr, axis=0)
         image_arr = image_arr.astype(np.float32)  
 
-        return image_arr
+        return image_arr 
+    
+    def get_batch(self):
+        """
+        Retrieve the batches. This is a generator object, so you can use it within a loop as:
+        for batch, images in batcher.get_batch():
+           ...
+        Or outside of a batch with the next() function.
+        :return: A generator yielding two items per iteration: a numpy array holding a batch of images, and the list of
+        paths to the images loaded within this batch.
+        """
+        for i, batch_images in enumerate(self.batches):
+            batch_data = np.zeros(self.shape, dtype=self.dtype)
+            for i, image in enumerate(batch_images):
+                self.image_index += 1
+                batch_data[i] = self.preprocess_image(image)
+            self.batch_index += 1
+
+            yield batch_data, batch_images
