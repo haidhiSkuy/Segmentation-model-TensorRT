@@ -12,8 +12,6 @@ class ImageBatcher:
             input : str, 
             shape : Union[list, tuple], 
             dtype : np.dtype, 
-            max_num_images : int = None, 
-            exact_batches : bool = False
         ) -> None:
         """ 
         Args:
