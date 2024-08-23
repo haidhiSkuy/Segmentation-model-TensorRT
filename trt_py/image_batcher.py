@@ -76,4 +76,15 @@ class ImageBatcher:
 
         # Indices
         self.image_index = 0
-        self.batch_index = 0
+        self.batch_index = 0 
+
+    def preprocess_image(self, image_path : str) -> np.ndarray: 
+        image_arr = cv2.imread(image_path) 
+        image_arr = cv2.cvtColor(image_arr, cv2.COLOR_BGR2RGB) 
+        image_arr = cv2.resize(image_arr, (256,256)) / 255.0
+        
+        image_arr = np.transpose(image_arr, (2,0,1)) 
+        image_arr = np.expand_dims(image_arr, axis=0)
+        image_arr = image_arr.astype(np.float32)  
+
+        return image_arr
