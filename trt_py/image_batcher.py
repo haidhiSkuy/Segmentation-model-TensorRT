@@ -39,4 +39,13 @@ class ImageBatcher:
         self.num_images = len(self.images)
         if self.num_images < 1:
             print("No Image Found")
-            sys.exit(1)
+            sys.exit(1) 
+
+        # Handle Tensor Shape
+        self.dtype = dtype
+        self.shape = shape 
+
+        # Make sure the shape has 4 values (batch size, C, W, H)
+        assert len(self.shape) == 4
+        self.batch_size = shape[0]  
+        assert self.batch_size > 0
