@@ -1,5 +1,6 @@
 import numpy as np
 import tensorrt as trt
+from utils.util import *
 from utils.logger import MyLogger 
 
 from common import common
@@ -89,4 +90,8 @@ class TensorRTInfer:
             self.inputs[0]["allocation"], np.ascontiguousarray(batch)
         )
         self.context.execute_v2(self.allocations)
-        common.memcpy_device_to_host(output, self.outputs[0]["allocation"])
+        common.memcpy_device_to_host(output, self.outputs[0]["allocation"]) 
+
+        output_mask = sigmoid(output)[0][0]
+        output_mask = np.where(output_mask > 0.5, 1, 0) * 255
+        return output_mask
