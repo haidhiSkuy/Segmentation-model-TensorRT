@@ -16,8 +16,9 @@ class SegmentationInfer
         // define model input and output shape 
         nvinfer1::DataType dtype; 
         nvinfer1::Dims shape; 
-        void *m_deviceInput; 
 
+        void *m_deviceInput; 
+        void *m_deviceOutput;
 };
 
 

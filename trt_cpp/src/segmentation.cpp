@@ -54,27 +54,29 @@ SegmentationInfer::SegmentationInfer(std::string engine_path)
         const char* binding_name = engine->getBindingName(i); 
         std::string tensorName = binding_name; 
 
-        bool is_input = false; 
+
+        dtype = engine->getBindingDataType(i); 
+        shape = engine->getBindingDimensions(i);
+
+        // Allocate GPU memory to hold the entire batch
+        size_t buffer_size = 1; 
+        for(int i = 0; i<shape.nbDims; i++)
+        { 
+            buffer_size *= shape.d[i]; 
+        }
+
 
         // Get the tensor mode
         nvinfer1::TensorIOMode tensorMode = engine->getTensorIOMode(tensorName.c_str());
 
         // Check if the tensor mode is INPUT
         if (tensorMode == nvinfer1::TensorIOMode::kINPUT) {
-            is_input = true; 
+            cudaMalloc(&m_deviceInput, buffer_size * sizeof(float)); 
+        } else { 
+            cudaMalloc(&m_deviceOutput, buffer_size * sizeof(float));
         }
 
-        dtype = engine->getBindingDataType(i); 
-        shape = engine->getBindingDimensions(i);
-
-        // Allocate GPU memory to hold the entire batch
-        size_t m_inputCount = 1; 
-        for(int i = 0; i<shape.nbDims; i++)
-        { 
-            m_inputCount *= shape.d[i]; 
-        }
-
-        cudaMalloc(&m_deviceInput, m_inputCount * sizeof(float));
+        
 
 
     }
