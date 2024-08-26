@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 #include <vector>
+#include <cuda_runtime.h>
 
 #include <NvInfer.h>
 
@@ -63,8 +64,18 @@ SegmentationInfer::SegmentationInfer(std::string engine_path)
             is_input = true; 
         }
 
-        nvinfer1::DataType dtype = engine->getBindingDataType(i); 
-        nvinfer1::Dims shape = engine->getBindingDimensions(i); 
+        dtype = engine->getBindingDataType(i); 
+        shape = engine->getBindingDimensions(i);
+
+        // Allocate GPU memory to hold the entire batch
+        size_t m_inputCount = 1; 
+        for(int i = 0; i<shape.nbDims; i++)
+        { 
+            m_inputCount *= shape.d[i]; 
+        }
+
+        cudaMalloc(&m_deviceInput, m_inputCount * sizeof(float));
+
 
     }
 
