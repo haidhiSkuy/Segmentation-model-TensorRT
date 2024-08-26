@@ -1,0 +1,6 @@
+convert 
+trtexec --onnx=ghost_unet.onnx --saveEngine=ghost_unet.engine
+
+
+testing
+trtexec --loadEngine=ghost_unet.engine --shapes=input:1x3x256x256 --warmUp=10 --iterations=10
