@@ -12,4 +12,7 @@ RUN cd /opt/opencv && \
           -D CUDA_ARCH_BIN=8.6 \
           -D CUDA_ARCH_PTX=8.6 \
           -D WITH_CUBLAS=1 \
-           ..
+           .. && \ 
+    
+    make -j$(nproc) && \ 
+    make install 
