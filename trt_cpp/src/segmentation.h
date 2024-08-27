@@ -7,6 +7,8 @@ class SegmentationInfer
     public: 
         SegmentationInfer(std::string engine_path);
 
+        void preprocessing(std::string image_path);
+
     private: 
         // define model engine
         nvinfer1::ICudaEngine* engine = nullptr;
@@ -16,6 +18,8 @@ class SegmentationInfer
         // define model input and output shape 
         nvinfer1::DataType dtype; 
         nvinfer1::Dims shape; 
+
+        size_t m_inputCount;
 
         void *m_deviceInput; 
         void *m_deviceOutput;

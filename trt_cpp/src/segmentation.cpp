@@ -71,14 +71,11 @@ SegmentationInfer::SegmentationInfer(std::string engine_path)
 
         // Check if the tensor mode is INPUT
         if (tensorMode == nvinfer1::TensorIOMode::kINPUT) {
-            cudaMalloc(&m_deviceInput, buffer_size * sizeof(float)); 
+            cudaMalloc(&m_deviceInput, buffer_size * sizeof(float));  
+            m_inputCount = buffer_size; 
         } else { 
             cudaMalloc(&m_deviceOutput, buffer_size * sizeof(float));
         }
-
-        
-
-
     }
 
 
