@@ -31,7 +31,14 @@ void SegmentationInfer::preprocessing(std::string image_path)
     // normalize
     GpuImage.convertTo(GpuImage, CV_32F, 1.0 / 255, 0);
 
-    // copy to 
+    // copy to GPU
     auto *dataPointer = GpuImage.ptr<void>();
-    cudaMemcpyAsync(m_deviceInput, dataPointer, m_inputCount * sizeof(float), cudaMemcpyDeviceToDevice);
+
+    cudaStream_t cudaStream;
+    cudaStreamCreate(&cudaStream);
+    cudaStreamSynchronize(cudaStream);
+    cudaMemcpyAsync(m_deviceInput, dataPointer, m_inputCount * sizeof(float), cudaMemcpyDeviceToDevice, cudaStream); 
+
+    context->enqueueV2(&m_deviceInput, cudaStream, nullptr);
+
 }
