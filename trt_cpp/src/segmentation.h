@@ -20,6 +20,7 @@ class SegmentationInfer
         nvinfer1::Dims shape; 
 
         size_t m_inputCount;
+        size_t m_outputCount;
 
         void *m_deviceInput; 
         void *m_deviceOutput;

@@ -75,6 +75,7 @@ SegmentationInfer::SegmentationInfer(std::string engine_path)
             m_inputCount = buffer_size; 
         } else { 
             cudaMalloc(&m_deviceOutput, buffer_size * sizeof(float));
+            m_outputCount = buffer_size;
         }
     }
 
