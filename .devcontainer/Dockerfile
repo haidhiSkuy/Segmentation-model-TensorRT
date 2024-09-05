@@ -16,3 +16,5 @@ RUN cd /opt/opencv && \
     
     make -j$(nproc) && \ 
     make install 
+
+RUN pip install nvidia-ml-py3
