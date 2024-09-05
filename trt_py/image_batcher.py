@@ -2,7 +2,7 @@ import os
 import cv2
 import sys
 import numpy as np 
-from utils.util import *
+from trt_py.utils.util import *
 from typing import Union
 
 

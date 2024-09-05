@@ -19,7 +19,7 @@ import argparse
 import os
 
 import tensorrt as trt
-from common.common_runtime import *
+from trt_py.common.common_runtime import *
 
 try:
     # Sometimes python does not understand FileNotFoundError

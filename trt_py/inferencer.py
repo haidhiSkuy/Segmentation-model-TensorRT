@@ -1,9 +1,9 @@
 import numpy as np
 import tensorrt as trt
-from utils.util import *
-from utils.logger import MyLogger 
+from trt_py.utils.util import *
+from trt_py.utils.logger import MyLogger 
 
-from common import common
+from trt_py.common import common
 from cuda import cudart
 
 class TensorRTInfer: 
@@ -103,7 +103,7 @@ if __name__ == "__main__":
 
     input_path = "sample_image/image4.png"
 
-    inference = TensorRTInfer("model/ghost_unet.engine")
+    inference = TensorRTInfer("model/ghost_unet_1e-3--fp32.engine")
     input_shape, input_dtype = inference.input_spec()
 
     batcher = ImageBatcher(
